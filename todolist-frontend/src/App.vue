@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       todos: [],
-      isLoggedIn: this.$jwt.length > 0,
+      isLoggedIn: this.$store.state.token.length > 0,
       user: {}
     };
   },
@@ -38,30 +38,35 @@ export default {
       this.todos.unshift(todo)
     },
     onAuth({ token, user }) {
+      console.log(token, user);
       Cookie.set('jwt', token, { domain: 'localhost' })
-      this.$jwt = token
+      // this.$store.state.token = token
+      this.$store.commit({
+        type: 'SET_TOKEN',
+        token
+      })
       this.isLoggedIn = true
       this.user = user
+
+      this.getInitialTodos()
     },
     async getMe() {
-      const response = await fetch('http://localhost:3001/me', {
+      const response = await fetch(`${this.$apiPath}/me`, {
         headers: {
-          'Authorization': this.$jwt
+          'Authorization': this.$store.state.token
         }
       })
 
       if (response.status == 200) {
-        this.user = await   response.json()
+        this.user = await response.json()
       } else {
-        this.isLoggedIn = false
-        this.$jwt = ''
-        Cookie.set('jwt', '', { domain: 'localhost' })
+        this.logout()
       }
     },
     async getInitialTodos() {
-      const response = await fetch('http://localhost:3001/todos?limit=100', {
+      const response = await fetch(`${this.$apiPath}/todos?limit=100`, {
         headers: {
-          'Authorization': this.$jwt
+          'Authorization': this.$store.state.token
         }
       })
 
@@ -74,7 +79,11 @@ export default {
     },
     logout() {
       this.isLoggedIn = false
-      this.$jwt = ''
+      // this.$store.state.token = ''
+      this.$store.commit({
+        type: 'SET_TOKEN',
+        token: ''
+      })
       Cookie.set('jwt', '', { domain: 'localhost' })
     }
   },

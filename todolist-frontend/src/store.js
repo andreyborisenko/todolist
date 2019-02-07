@@ -1,24 +1,26 @@
-// import Vue from 'vue'
-// import Vuex from 'vuex'
+import Vue from 'vue'
+import Vuex from 'vuex'
+import Cookie from 'js-cookie'
 
-// // Dont have time to implement, sry :(
+// Dont have time to implement, sry :(
 
-// Vue.use(Vuex)
+Vue.use(Vuex)
 
-// export default new Vuex.Store({
-//   state: {
-//     todos: []
-//   },
-//   actions: {
-//     ADD_TODO() {
+export default new Vuex.Store({
+  state: {
+    todos: [],
+    token: Cookie.get('jwt') || ''
+  },
+  actions: {
+    GET_TODOS() {
 
-//     }
-//     //...
-//   },
-//   mutations: {
-//     GET_TODOS() {
-
-//     }
-//     //...
-//   }
-// })
+    }
+    //...
+  },
+  mutations: {
+    SET_TOKEN(state, { token }) {
+        state.token = token;
+    }
+    //...
+  }
+})

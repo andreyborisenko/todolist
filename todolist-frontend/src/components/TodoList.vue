@@ -21,10 +21,10 @@ export default {
   },
   methods: {
     async deleteTodo(todoId) {
-      const response = await fetch(`http://localhost:3001/todos/${todoId}`, {
+      const response = await fetch(`${this.$apiPath}/todos/${todoId}`, {
         method: 'DELETE',
         headers: {
-          'Authorization': this.$jwt
+          'Authorization': this.$store.state.token
         }
       })
 
@@ -36,10 +36,10 @@ export default {
       }
     },
     async completeTodo(todoId) {
-      const response = await fetch(`http://localhost:3001/todos/${todoId}`, {
+      const response = await fetch(`${this.$apiPath}/todos/${todoId}`, {
         method: 'PUT',
         headers: {
-          'Authorization': this.$jwt,
+          'Authorization': this.$store.state.token,
           'content-type': 'application/json'
         },
         body: JSON.stringify({
@@ -55,10 +55,10 @@ export default {
       }
     },
     async saveTodo({ id, title }) {
-      const response = await fetch(`http://localhost:3001/todos/${id}`, {
+      const response = await fetch(`${this.$apiPath}/todos/${id}`, {
         method: 'PUT',
         headers: {
-          'Authorization': this.$jwt,
+          'Authorization': this.$store.state.token,
           'content-type': 'application/json'
         },
         body: JSON.stringify({

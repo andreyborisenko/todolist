@@ -37,10 +37,10 @@ export default {
     async sendForm() {      
       if (this.title.length == 0) return 
 
-      const response = await fetch('http://localhost:3001/todos', {
+      const response = await fetch(`${this.$apiPath}/todos`, {
         method: 'POST',
         headers: {
-          'Authorization': this.$jwt,
+          'Authorization': this.$store.state.token,
           'content-type': 'application/json'
         },
         body: JSON.stringify({

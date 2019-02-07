@@ -40,7 +40,7 @@ export default {
     async register() {
       if (!this.isButtonsEnabled) return
 
-      const response = await fetch('http://localhost:3001/register', {
+      const response = await fetch(`${this.$apiPath}/register`, {
         method: 'POST',
           headers: {
             'content-type': 'application/json'
@@ -58,7 +58,7 @@ export default {
       if (!this.isButtonsEnabled) return
 
       try {
-        const response = await fetch('http://localhost:3001/login', {
+        const response = await fetch(`${this.$apiPath}/login`, {
           method: 'POST',
           headers: {
             'content-type': 'application/json'
