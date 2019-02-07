@@ -52,7 +52,16 @@ export default {
       })
 
       if (response.status == 200) await this.login() 
-      else this.errorMessage = await response.text()
+      else {
+        const type = response.headers.get('Content-type')
+
+        if (type.includes('json')) {
+          const error = await response.json()
+          this.errorMessage = error.message
+        } else {
+          this.errorMessage = await response.text()
+        }
+      }
     },
     async login() {
       if (!this.isButtonsEnabled) return

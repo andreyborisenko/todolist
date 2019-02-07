@@ -15,7 +15,7 @@ router.post('/register', async (ctx, next) => {
     if (err.code == 11000) {
       ctx.body = 'User already exists'
     } else {
-      ctx.body = 'An error occured'
+      ctx.body = err
     }
   }
 })
